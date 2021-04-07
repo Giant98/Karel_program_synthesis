@@ -17498,3 +17498,4 @@
 3['pickMarker', 'move', 'pickMarker', 'turnLeft']
 4['pickMarker', 'move', 'move', 'move', 'pickMarker', 'turnLeft']
 5['pickMarker', 'move', 'move', 'move', 'pickMarker', 'turnLeft']
+Using default world...
