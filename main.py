@@ -11,4 +11,5 @@ if __name__ == '__main__':
 
     filename = "2"
     #SolveJson.GetString(filename)
-    run_karel_program()
+    #run_karel_program()
+    print(GetCode.search_path())
