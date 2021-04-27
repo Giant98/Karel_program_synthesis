@@ -1,5 +1,7 @@
-def search_path():
+def search_path(filename):
     ans = []
+    token = ["move()","turn_right()","turn_left()","pick_beeper()","put_beeper()"]
+    Cond = ["front_is_clear()","left_is_clear()","right_is_clear()","beepers_present()","no_beepers_present()"]
     '''
     # 找到如下路径
     # move()
@@ -14,8 +16,14 @@ def search_path():
     ans.append("\nwhile front_is_clear():")
     ans.append("\n\tmove()")
     '''
-    action = ["move()","turn_right()","turn_left()","pick_beeper()","put_beeper()"]
-    Cond = ["front_is_clear()","left_is_clear()","right_is_clear()","beepers_present()","no_beepers_present()"]
-    ans.append("")
+    f = open("./data/" + filename + ".txt", "r")
+    line = f.readlines()
 
     return ans
+
+def train_path(trace5):
+    code = ""
+    return code
+
+def test_path(code):
+    return True

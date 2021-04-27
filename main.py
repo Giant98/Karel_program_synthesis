@@ -1,7 +1,7 @@
 import  SolveJson
 import  GetCode
 from stanfordkarel import *
-
+filename = "2"
 def main():
     """ Karel code goes here! """
     path = GetCode.search_path()
@@ -9,7 +9,6 @@ def main():
 
 if __name__ == '__main__':
 
-    filename = "2"
     #SolveJson.GetString(filename)
     #run_karel_program()
-    print(GetCode.search_path())
+    print(GetCode.search_path(filename))
