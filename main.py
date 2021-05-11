@@ -4,7 +4,7 @@ from karel import KarelForSynthesisParser
 #from stanfordkarel import *
 
 #声明处理的文件
-filename = "test"
+filename = "2"
 
 '''
 #Karel图形界面

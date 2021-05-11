@@ -65,7 +65,6 @@ class Parser(object):
         self.call_counter = [0]
 
         def callout(f):
-            @wraps(f)
             def wrapped(*args, **kwargs):
                 if self.call_counter[0] > self.max_func_call:
                     raise TimeoutError
