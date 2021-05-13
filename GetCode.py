@@ -29,6 +29,7 @@ def train_path(trace,code):#利用传过来的6条trace搜索path
     if(len(set(trace))==1):
         print(set(trace))
     '''
+    '''
     #获得预期output
     parser = KarelForSynthesisParser()
     parser.new_game(world_size=(8, 8))
@@ -40,7 +41,10 @@ def train_path(trace,code):#利用传过来的6条trace搜索path
     else:
         parser.draw("Output: ")
         output = parser.get_state()
-
+    '''
+    parser = KarelForSynthesisParser()
+    code = parser.random_code(stmt_max_depth=5)
+    print(code)
 
     ans = ""
 

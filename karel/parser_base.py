@@ -155,7 +155,7 @@ class Parser(object):
         return code
 
     def random_tokens(self, start_token="prog", depth=0, stmt_min_depth=2, stmt_max_depth=5, **kwargs):
-        #print(depth, start_token)
+        print(depth, start_token)
         if start_token == 'stmt':
             if depth > stmt_max_depth:
                 start_token = "action"
@@ -184,7 +184,8 @@ class Parser(object):
                         raise Exception(" [!] Undefined token `{}`".format(token))
 
                 codes.append(str(token).replace('\\', ''))
-
+        print("tokens",end="")
+        print(codes)
         return codes
 
     def flush_hit_info(self):
