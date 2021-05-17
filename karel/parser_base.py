@@ -143,6 +143,7 @@ class Parser(object):
 
             idxes = self.rng.choice(
                     action_candidates, min(len(action_candidates), count_diff))
+
             for idx in idxes:
                 tokens[idx] = self.t_MOVE
             code = " ".join(tokens)
@@ -155,7 +156,7 @@ class Parser(object):
         return code
 
     def random_tokens(self, start_token="prog", depth=0, stmt_min_depth=2, stmt_max_depth=5, **kwargs):
-        print(depth, start_token)
+        #print(depth, start_token)
         if start_token == 'stmt':
             if depth > stmt_max_depth:
                 start_token = "action"
@@ -170,8 +171,7 @@ class Parser(object):
         codes = []
         candidates = self.prodnames[start_token]
 
-        prod = candidates[self.rng.randint(len(candidates))]
-
+        prod = candidates[random.randint(0,len(candidates)-1)]
         for term in prod.prod:
             if term in self.prodnames: # need digging
                 codes.extend(self.random_tokens(term, depth + 1, stmt_max_depth))
@@ -184,8 +184,7 @@ class Parser(object):
                         raise Exception(" [!] Undefined token `{}`".format(token))
 
                 codes.append(str(token).replace('\\', ''))
-        print("tokens",end="")
-        print(codes)
+
         return codes
 
     def flush_hit_info(self):

@@ -1,6 +1,6 @@
 from karel import KarelForSynthesisParser
 from karel.utils import TimeoutError
-import numpy as np
+
 
 def search_path(filename):
     trace = []
@@ -8,11 +8,9 @@ def search_path(filename):
     f = open("./data/" + filename + ".txt", "r")
     line = f.readline()
     while line:
-        if line[:4]=="Code":
+        if line[:4] == "Code":
             code = line[5:]
-            print("Code: ", end="")
-            print(code, end="")
-            ans = train_path(trace,code)
+            ans = train_path(trace, code)
             trace = []
         else:
             trace.append(line[:-1])
@@ -21,16 +19,17 @@ def search_path(filename):
 
     return ans
 
-def train_path(trace,code):#利用传过来的6条trace搜索path
-    token = ["move ", "turnRight ", "turnLeft ", "pickMarker", "putMarker"]
-    Cond = ["frontIsClear", "leftIsClear", "rightIsClear", "markersPresent", "noMarkersPresent"]
-    output = []
+
+def train_path(trace, code):  # 利用传过来的6条trace搜索path
     '''
     if(len(set(trace))==1):
         print(set(trace))
     '''
-    '''
+
+    output = []
     #获得预期output
+    print("Code:  ",end="")
+    print(code,end="")
     parser = KarelForSynthesisParser()
     parser.new_game(world_size=(8, 8))
     parser.draw("Input:  ", with_color=True)
@@ -45,10 +44,11 @@ def train_path(trace,code):#利用传过来的6条trace搜索path
     parser = KarelForSynthesisParser()
     code = parser.random_code(stmt_max_depth=5)
     print(code)
-
+    '''
     ans = ""
 
     return ans
+
 
 def test_path(code):
     return True

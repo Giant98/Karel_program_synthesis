@@ -1,0 +1,25 @@
+'''
+#Karel图形界面
+def main():
+    """ Karel code goes here! """
+    path = GetCode.search_path(filename)
+    exec("".join(path))
+'''
+
+if __name__ == '__main__':
+
+    #run_karel_program(filename_to_save="test2.w")#Karel图形界面
+
+'''
+    #用Karel库运行程序
+    parser = KarelForSynthesisParser()
+    parser.new_game(world_size=(8, 8))
+    
+    code = "DEF run m( move REPEAT R=3 r( putMarker r) move m)"
+    parser.draw("Input:  ", with_color=True)
+    #input = parser.get_state()
+    parser.run(code,debug=False)
+    #output = parser.get_state()
+    #print((input == output).all())
+    parser.draw("Output: ")
+'''
