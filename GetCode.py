@@ -25,7 +25,7 @@ def train_path(trace, code):  # 利用传过来的6条trace搜索path
     if(len(set(trace))==1):
         print(set(trace))
     '''
-
+    '''
     output = []
     #获得预期output
     print("Code:  ",end="")
@@ -44,7 +44,7 @@ def train_path(trace, code):  # 利用传过来的6条trace搜索path
     parser = KarelForSynthesisParser()
     code = parser.random_code(stmt_max_depth=5)
     print(code)
-    '''
+
     ans = ""
 
     return ans
