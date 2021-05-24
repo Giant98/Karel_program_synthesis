@@ -17,4 +17,5 @@ if __name__ == '__main__':
 
     #SolveJson.GetString(filename)#Json文件处理
     #run_karel_program(filename_to_save="test2.w")#Karel图形界面
-    GetCode.search_path(filename)
+    #GetCode.search_path(filename)
+    GetCode.train_path([],"")

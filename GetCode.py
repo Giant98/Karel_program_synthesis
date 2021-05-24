@@ -42,7 +42,9 @@ def train_path(trace, code):  # 利用传过来的6条trace搜索path
         output = parser.get_state()
     '''
     parser = KarelForSynthesisParser()
-    code = parser.random_code(stmt_max_depth=5)
+    code = parser.search_code(stmt_max_depth=1)
+    print(code)
+    code = parser.random_code()
     print(code)
 
     ans = ""
