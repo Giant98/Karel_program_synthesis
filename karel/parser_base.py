@@ -129,37 +129,9 @@ class Parser(object):
     def search_code(self, stmt_max_depth=3):
         code = []
         for deep in range(0,stmt_max_depth):
+            print(deep)
             code.append(self.search_tokens(stmt_max_depth=deep))
         return code
-
-    def search_tokens(self, start_token="prog", depth=0,  stmt_max_depth=3):
-        if start_token == 'stmt':
-            if depth > stmt_max_depth:
-                start_token = "action"
-
-        all = []
-        candidates = self.prodnames[start_token]
-
-        for prod in candidates:
-            code = []
-            for term in prod.prod:
-                print(code)
-                if term in self.prodnames:  # need digging
-                    tempcode = []
-                    temp = self.search_tokens(term, depth + 1, stmt_max_depth)
-                    for i in temp:
-                        tempcode.append(code+i)
-                    code = tempcode
-                else:
-                    token = getattr(self, 't_{}'.format(term))
-                    if callable(token):
-                        if token == self.t_INT:
-                            token = self.random_INT()
-                        else:
-                            raise Exception(" [!] Undefined token `{}`".format(token))
-                    code.append(str(token).replace('\\', ''))
-            all.append(code)
-        return all
 
     def random_code(self, create_hit_info=False, *args, **kwargs):
         code = " ".join(self.random_tokens(*args, **kwargs))

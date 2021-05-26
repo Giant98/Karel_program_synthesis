@@ -1,6 +1,6 @@
 from karel import KarelForSynthesisParser
 from karel.utils import TimeoutError
-
+from karel.Search import Prog
 
 def search_path(filename):
     trace = []
@@ -28,6 +28,7 @@ def train_path(trace, code):  # 利用传过来的6条trace搜索path
     '''
     output = []
     #获得预期output
+    code = "DEF run m( WHILE c( frontIsClear c) w( move w) m)"
     print("Code:  ",end="")
     print(code,end="")
     parser = KarelForSynthesisParser()
@@ -41,11 +42,10 @@ def train_path(trace, code):  # 利用传过来的6条trace搜索path
         parser.draw("Output: ")
         output = parser.get_state()
     '''
-    parser = KarelForSynthesisParser()
-    code = parser.search_code(stmt_max_depth=1)
-    print(code)
-    code = parser.random_code()
-    print(code)
+    codes = Prog(2)
+    for code in codes:
+        print(code)
+
 
     ans = ""
 
