@@ -83,7 +83,7 @@ def dfs(Root,trace):#查看当前trace在树中能否查找到
                 return False
         return dfs(Root.lchild,trace[root_length:]) or dfs(Root.rchild,trace[root_length:])
 
-"DEF run m( IFELSE c( markersPresent c) i( pickMarker i) ELSE e( putMarker e) m)"
+
 def getans(Root):
     ans = Root.val
     if(Root.lchild!=None):
@@ -95,6 +95,7 @@ def getans(Root):
         ans.extend(getans(Root.rchild))
         ans.append('e)')
     return ans
+
 
 def change(Root,trace):#根据新trace修改二叉树
     trace_length = len(trace)
@@ -126,7 +127,8 @@ def change(Root,trace):#根据新trace修改二叉树
             TempRoot = TempRoot.lchild
         else:
             TempRoot = TempRoot.rchild
-
+    if(TempRoot==None):
+        TempRoot = TreeNode("#")
     trace = trace[num:]
     trace_length = len(trace)
     root_length = len(TempRoot.val)
