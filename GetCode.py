@@ -8,6 +8,11 @@ class TreeNode():#二叉树节点(用来模拟if_else)
         self.lchild=lchild		#左孩子
         self.rchild=rchild		#右孩子
 
+
+def takelength(elem):
+    return len(elem)
+
+
 def search_path(filename):
     trace = []
     ans = ""
@@ -16,6 +21,7 @@ def search_path(filename):
     while line:#根据txt数据格式读取trace,code
         if line[:4] == "Code":
             code = line[5:]
+            trace.sort(key=takelength)
             ans = train_path(trace, code)
             trace = []
         else:
@@ -32,6 +38,8 @@ def train_path(traces, code):  # 利用传过来的6条trace搜索path
     if(len(set(traces))==1):#全部相同情况
         ans = traces[0]
     else:
+        print("\ncod: ",end="")
+        print(code,end="")
         temptraces = []
         for trace in traces:
             temptraces.append(str(trace).replace(' ','').replace('[','').replace(']','').replace('\'','').split(','))
@@ -40,7 +48,6 @@ def train_path(traces, code):  # 利用传过来的6条trace搜索path
             if(not dfs(Root,trace)):
                 Root = change(Root,trace)
         ans = getans(Root)
-        print(ans)
     '''
     output = []
     #获得预期output
