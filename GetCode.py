@@ -172,10 +172,12 @@ def solverepeat(datastring):
         return datastring
     else:
         prelist = str(datastring[0:index])
+        if (prelist != "[]"):
+            prelist = prelist + " "
         lastlist = str(datastring[index+maxcount*len(sub):])
         if(lastlist!="[]"):
             lastlist = " "+lastlist
-        repeatstring = " REPEAT R="+str(maxcount)+" r( "+str(sub)+" r)"
+        repeatstring = "REPEAT R="+str(maxcount)+" r( "+str(sub)+" r)"
         return prelist+repeatstring+lastlist
 
 def dfs(Root,trace):#查看当前trace在树中能否查找到

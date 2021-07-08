@@ -26,3 +26,10 @@ Code:DEF run m( IFELSE c( not c( leftIsClear c) c) i( IFELSE c( noMarkersPresent
 ['move', 'putMarker', 'putMarker', 'putMarker']
 ['move', 'putMarker', 'putMarker', 'putMarker']
 Code:DEF run m( move REPEAT R=3 r( putMarker r) m)
+['turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'pickMarker', 'turnLeft']
+['turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'pickMarker', 'turnLeft']
+['turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'pickMarker', 'turnLeft']
+['turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'pickMarker', 'turnLeft']
+['turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'pickMarker', 'turnLeft']
+['turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'move', 'move', 'putMarker', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'turnLeft', 'pickMarker', 'turnLeft']
+Code:DEF run m( WHILE c( not c( frontIsClear c) c) w( turnLeft move move putMarker w) REPEAT R=4 r( WHILE c( not c( leftIsClear c) c) w( turnLeft w) turnLeft r) pickMarker turnLeft m)
