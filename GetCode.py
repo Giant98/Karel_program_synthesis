@@ -18,17 +18,25 @@ def search_path(filename):
     ans = ""
     f = open("./data/" + filename + ".txt", "r")
     line = f.readline()
+    datalength = 0
+    matchnum = 0
     while line:#根据txt数据格式读取trace,code
         if line[:4] == "Code":
-            code = line[5:]
+            datalength = datalength+1
+            code = line[5:-1]
             trace.sort(key=takelength)
             ans = train_path(trace, code)
+            if(ans == code):
+                matchnum = matchnum + 1
+            else:
+                print(code)
+                print(ans, end="\n\n")
             trace = []
         else:
             trace.append(line[:-1])
         line = f.readline()
     f.close()
-
+    print(matchnum/datalength)
     return ans
 
 
@@ -37,9 +45,10 @@ def train_path(traces, code):  # 利用传过来的6条trace搜索path
 
     if(len(set(traces))==1):#全部相同情况
         ans = traces[0]
+        tempans = "DEF run m( "+str(ans).replace('[','').replace(']','').replace('\'','').replace(',','')+" m)"
+        if tempans != code:#加入了code判断
+            ans = solverepeat(ans)
     else:
-        print("\ncod: ",end="")
-        print(code,end="")
         temptraces = []
         for trace in traces:
             temptraces.append(str(trace).replace(' ','').replace('[','').replace(']','').replace('\'','').split(','))
@@ -48,6 +57,10 @@ def train_path(traces, code):  # 利用传过来的6条trace搜索path
             if(not dfs(Root,trace)):
                 Root = change(Root,trace)
         ans = getans(Root)
+        tempans = "DEF run m( " + str(ans).replace('[', '').replace(']', '').replace('\'', '').replace(',', '') + " m)"
+        if tempans != code:#加入了code判断
+            Root = findrepeat(Root)
+            ans = getans(Root)
     '''
     output = []
     #获得预期output
@@ -70,37 +83,7 @@ def train_path(traces, code):  # 利用传过来的6条trace搜索path
         print(code)
     '''
 
-    print("ans: DEF run m( "+str(ans).replace('[','').replace(']','').replace('\'','').replace(',','')+" m)")
-    return ans
-
-
-def dfs(Root,trace):#查看当前trace在树中能否查找到
-    if not Root:
-        return False
-    trace_length = len(trace)
-    root_length = len(Root.val)
-    if(trace_length<=root_length):
-        for i in range(trace_length):
-            if(trace[i]!=Root.val[i]):
-                return False
-        return True
-    else:
-        for i in range(root_length):
-            if(trace[i]!=Root.val[i]):
-                return False
-        return dfs(Root.lchild,trace[root_length:]) or dfs(Root.rchild,trace[root_length:])
-
-
-def getans(Root):
-    ans = Root.val
-    if(Root.lchild!=None):
-        ans.append('IFELSE c( cond c) i(')
-        ans.extend(getans(Root.lchild))
-        ans.append('i) ')
-    if(Root.rchild!=None):
-        ans.append('ELSE e(')
-        ans.extend(getans(Root.rchild))
-        ans.append('e)')
+    ans = "DEF run m( "+str(ans).replace('[','').replace(']','').replace('\'','').replace(',','')+" m)"
     return ans
 
 
@@ -153,6 +136,65 @@ def change(Root,trace):#根据新trace修改二叉树
             return Root
 
 
+def findrepeat(Root):#对节点中的Repeat数据进行压缩
+    if(Root==None):
+        return;
+    Root.val = solverepeat(Root.val)
+    findrepeat(Root.lchild)
+    findrepeat(Root.rchild)
+    return Root
+
+
+def solverepeat(datastring):
+    datastring = str(datastring).replace('[','').replace(']','').replace('\'','').replace(',','')
+    datastring = datastring.split(" ")
+    maxcount = 1
+    sub = []
+    index = 0
+    length = len(datastring)
+    for i in range(length-1):
+        for j in range(i+1,length):
+            count = 1
+            if datastring[i:j] == datastring[j:j+j-i]:
+                #j-i为字串长度
+                count = count + 1
+                templist = datastring[i:j]
+                for k in range(j+j-i,length,j-i):
+                    if templist == datastring[k:k+j-i]:
+                        count = count + 1
+                    else:
+                        break
+                if count > maxcount:
+                    maxcount = count
+                    sub = templist
+                    index = i
+    if(maxcount<2):
+        return datastring
+    else:
+        prelist = str(datastring[0:index])
+        lastlist = str(datastring[index+maxcount*len(sub):])
+        if(lastlist!="[]"):
+            lastlist = " "+lastlist
+        repeatstring = " REPEAT R="+str(maxcount)+" r( "+str(sub)+" r)"
+        return prelist+repeatstring+lastlist
+
+def dfs(Root,trace):#查看当前trace在树中能否查找到
+    if not Root:
+        return False
+    trace_length = len(trace)
+    root_length = len(Root.val)
+    if(trace_length<=root_length):
+        for i in range(trace_length):
+            if(trace[i]!=Root.val[i]):
+                return False
+        return True
+    else:
+        for i in range(root_length):
+            if(trace[i]!=Root.val[i]):
+                return False
+        return dfs(Root.lchild,trace[root_length:]) or dfs(Root.rchild,trace[root_length:])
+
+
 def findmaxmatch(Root,trace):#寻找匹配程度最高的结点,返回[当前最大匹配量,路径]
     if not Root:
         return [0,""]
@@ -173,6 +215,15 @@ def findmaxmatch(Root,trace):#寻找匹配程度最高的结点,返回[当前最
             return [(root_length+lchild_ans[0]),("l"+lchild_ans[1])]
         else:
             return [(root_length + rchild_ans[0]), ("r" + rchild_ans[1])]
+
+
+def getans(Root):
+    ans = str(Root.val)
+    if(Root.lchild!=None):
+        ans = ans + ' IFELSE c( cond c) i( ' + str(getans(Root.lchild))+' i) '
+    if(Root.rchild!=None):
+        ans = ans + 'ELSE e( ' + str(getans(Root.rchild))+' e)'
+    return ans
 
 
 def test_path(code):
