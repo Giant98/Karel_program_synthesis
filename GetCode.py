@@ -1,6 +1,7 @@
 from karel import KarelForSynthesisParser
 from karel.utils import TimeoutError
 from karel.Search import Prog
+from Base import Draw
 
 class TreeNode():#二叉树节点(用来模拟if_else)
     def __init__(self,val,lchild=None,rchild=None):
@@ -15,6 +16,8 @@ def takelength(elem):
 
 def search_path(filename):
     trace = []
+    input = []
+    output = []
     ans = ""
     f = open("./data/" + filename + ".txt", "r")
     line = f.readline()
@@ -32,8 +35,18 @@ def search_path(filename):
                 print(code)
                 print(ans, end="\n\n")
             trace = []
-        else:
-            trace.append(line[:-1])
+            input = []
+            output = []
+        elif line[:6] == "Action":
+            trace.append(line[7:-1])
+        elif line[:5] == "Input":
+            input.append(line[6:-1])
+            print("Input:")
+            Draw(line[6:-1])
+        elif line[:6] == "Output":
+            output.append(line[7:-1])
+            print("Output:")
+            Draw(line[7:-1])
         line = f.readline()
     f.close()
     print(matchnum/datalength)

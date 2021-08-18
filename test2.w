@@ -1,3 +1,3 @@
 Dimension: (8, 8)
-Karel: (2, 8); north
+Karel: (1, 1); east
 BeeperBag: INFINITY

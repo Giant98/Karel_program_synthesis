@@ -13,6 +13,12 @@ def GetString(filename):  # 将json文件读取并转化为program-actions的格
             temp = str(example).replace('\'', '\"')
             example_dic = eval(temp)  # 按json字典方式读取
             #print(example_dic['example_index'], end="")
+            print("Action:",end="")
             print(example_dic['actions'])
+            print("Input:",end="")
+            print(example_dic['inpgrid_json'])
+            print("Output:", end="")
+            print(example_dic['outgrid_json'])
         print("Code:", end="")
         print(str(examples['program_tokens']).replace('\'', '').replace(',', '')[1:-1])
+        print()
