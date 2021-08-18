@@ -26,9 +26,9 @@ def Draw(texts):
     if datas['hero']!='':
         temp = datas['hero'].split(":")
         if(temp[2]=='north'):
-            dir = '^'
-        elif(temp[2]=='south'):
             dir = 'v'
+        elif(temp[2]=='south'):
+            dir = '^'
         elif (temp[2] == 'west'):
             dir = '<'
         else:
