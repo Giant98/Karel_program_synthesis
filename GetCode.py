@@ -1,7 +1,7 @@
 from karel import KarelForSynthesisParser
 from karel.utils import TimeoutError
 from karel.Search import Prog
-from Base import Draw
+from Base import loadJson,Draw,Run
 
 class TreeNode():#二叉树节点(用来模拟if_else)
     def __init__(self,val,lchild=None,rchild=None):
@@ -40,13 +40,9 @@ def search_path(filename):
         elif line[:6] == "Action":
             trace.append(line[7:-1])
         elif line[:5] == "Input":
-            input.append(line[6:-1])
-            print("Input:")
-            Draw(line[6:-1])
+            input.append(loadJson(line[6:-1]))
         elif line[:6] == "Output":
-            output.append(line[7:-1])
-            print("Output:")
-            Draw(line[7:-1])
+            output.append(loadJson(line[7:-1]))
         line = f.readline()
     f.close()
     print(matchnum/datalength)
