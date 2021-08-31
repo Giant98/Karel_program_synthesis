@@ -28,7 +28,7 @@ def search_path(filename):
             datalength = datalength+1
             code = line[5:-1]
             trace.sort(key=takelength)
-            ans = train_path(trace, code)
+            ans = train_path(input,output,trace, code)
             if(ans == code):
                 matchnum = matchnum + 1
             else:
@@ -43,15 +43,20 @@ def search_path(filename):
             input.append(loadJson(line[6:-1]))
         elif line[:6] == "Output":
             output.append(loadJson(line[7:-1]))
+            print(trace[-1])
+            print('Input:')
+            Draw(input[-1])
+            print('Output')
+            Draw(Run(input[-1],trace[-1]))
+
         line = f.readline()
     f.close()
     print(matchnum/datalength)
     return ans
 
 
-def train_path(traces, code):  # 利用传过来的6条trace搜索path
+def train_path(input,output,traces, code):  # 利用传过来的6条trace搜索path
     ans = ""
-
     if(len(set(traces))==1):#全部相同情况
         ans = traces[0]
         tempans = "DEF run m( "+str(ans).replace('[','').replace(']','').replace('\'','').replace(',','')+" m)"
