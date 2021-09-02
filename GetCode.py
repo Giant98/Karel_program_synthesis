@@ -43,12 +43,13 @@ def search_path(filename):
             input.append(loadJson(line[6:-1]))
         elif line[:6] == "Output":
             output.append(loadJson(line[7:-1]))
+            '''
             print(trace[-1])
             print('Input:')
             Draw(input[-1])
             print('Output')
             Draw(Run(input[-1],trace[-1]))
-
+            '''
         line = f.readline()
     f.close()
     print(matchnum/datalength)
@@ -132,7 +133,8 @@ def change(Root,trace):#根据新trace修改二叉树
         else:
             TempRoot = TempRoot.rchild
     if(TempRoot==None):
-        TempRoot = TreeNode("#")
+        ParentRoot.lchild = TreeNode(trace[num:])
+        return Root
     trace = trace[num:]
     trace_length = len(trace)
     root_length = len(TempRoot.val)
@@ -194,6 +196,7 @@ def solverepeat(datastring):
         repeatstring = "REPEAT R="+str(maxcount)+" r( "+str(sub)+" r)"
         return prelist+repeatstring+lastlist
 
+
 def dfs(Root,trace):#查看当前trace在树中能否查找到
     if not Root:
         return False
@@ -236,7 +239,10 @@ def findmaxmatch(Root,trace):#寻找匹配程度最高的结点,返回[当前最
 def getans(Root):
     ans = str(Root.val)
     if(Root.lchild!=None):
-        ans = ans + ' IFELSE c( cond c) i( ' + str(getans(Root.lchild))+' i) '
+        if(Root.rchild==None):
+            ans = ans + ' IF c( cond c) i( ' + str(Root.lchild.val) + ' i) '
+        else:
+            ans = ans + ' IFELSE c( cond c) i( ' + str(getans(Root.lchild))+' i) '
     if(Root.rchild!=None):
         ans = ans + 'ELSE e( ' + str(getans(Root.rchild))+' e)'
     return ans
