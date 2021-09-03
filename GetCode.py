@@ -73,6 +73,7 @@ def train_path(input,output,traces, code):  # 利用传过来的6条trace搜索p
                 Root = change(Root,trace)
         ans = getans(Root)
         tempans = "DEF run m( " + str(ans).replace('[', '').replace(']', '').replace('\'', '').replace(',', '') + " m)"
+
         if tempans != code:#加入了code判断
             Root = findrepeat(Root)
             ans = getans(Root)
@@ -99,6 +100,7 @@ def train_path(input,output,traces, code):  # 利用传过来的6条trace搜索p
     '''
 
     ans = "DEF run m( "+str(ans).replace('[','').replace(']','').replace('\'','').replace(',','')+" m)"
+    ans = ans.replace("  "," ")
     return ans
 
 
@@ -236,15 +238,39 @@ def findmaxmatch(Root,trace):#寻找匹配程度最高的结点,返回[当前最
             return [(root_length + rchild_ans[0]), ("r" + rchild_ans[1])]
 
 
+def delsamestring(Root):
+    print(1)
+
+
 def getans(Root):
     ans = str(Root.val)
     if(Root.lchild!=None):
-        if(Root.rchild==None):
-            ans = ans + ' IF c( cond c) i( ' + str(Root.lchild.val) + ' i) '
+        if(ans == "[]"):
+            block = ""
         else:
-            ans = ans + ' IFELSE c( cond c) i( ' + str(getans(Root.lchild))+' i) '
+            block = " "
+        if(Root.rchild==None):
+            ans = ans + block + 'IF c( cond c) i( ' + str(Root.lchild.val) + ' i) '
+        else:
+            ans = ans + block + 'IFELSE c( cond c) i( ' + str(getans(Root.lchild))+' i) '
     if(Root.rchild!=None):
         ans = ans + 'ELSE e( ' + str(getans(Root.rchild))+' e)'
+    ans = ans.replace("  "," ")
+    return ans
+
+
+def trycond(ans,code):
+    ans = ans.replace("  ", " ")
+    conditiondict = ['frontIsClear', 'leftIsClear', 'rightIsClear', 'markersPresent', 'noMarkersPresent']
+    for cond in conditiondict:
+        if code == ans.replace("cond", cond):
+            ans = code
+            break
+    if(ans!=code):
+        for cond in conditiondict:
+            if code == ans.replace("cond", "not c( "+cond+" c)"):
+                ans = code
+                break
     return ans
 
 
