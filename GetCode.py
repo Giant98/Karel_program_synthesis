@@ -77,6 +77,10 @@ def train_path(input,output,traces, code):  # 利用传过来的6条trace搜索p
         if tempans != code:#加入了code判断
             Root = findrepeat(Root)
             ans = getans(Root)
+        tempans = "DEF run m( " + str(ans).replace('[', '').replace(']', '').replace('\'', '').replace(',', '') + " m)"
+        if tempans != code:  # 加入了code判断
+            delsamestring(Root)
+            ans = getans(Root)
     '''
     output = []
     #获得预期output
@@ -101,6 +105,7 @@ def train_path(input,output,traces, code):  # 利用传过来的6条trace搜索p
 
     ans = "DEF run m( "+str(ans).replace('[','').replace(']','').replace('\'','').replace(',','')+" m)"
     ans = ans.replace("  "," ")
+    ans = trycond(ans,code)
     return ans
 
 
@@ -237,9 +242,28 @@ def findmaxmatch(Root,trace):#寻找匹配程度最高的结点,返回[当前最
         else:
             return [(root_length + rchild_ans[0]), ("r" + rchild_ans[1])]
 
-
 def delsamestring(Root):
-    print(1)
+    if Root:
+        if Root.lchild and Root.rchild and (not Root.lchild.lchild) and (not Root.lchild.rchild) and (not Root.rchild.lchild) and (not Root.rchild.rchild):
+            if(len(Root.lchild.val)>len(Root.rchild.val)):
+                short = Root.rchild.val
+                long = Root.lchild.val
+            else:
+                short = Root.lchild.val
+                long = Root.rchild.val
+            flag = True
+            for i in range(len(short)):
+                if(long[-i-1]!=short[-i-1]):
+                    flag = False
+                    break
+            if flag:
+                long.insert(len(long)-len(short),'Back_same')
+                Root.rchild = None
+                Root.lchild = TreeNode(long)
+
+        else:
+            delsamestring(Root.lchild)
+            delsamestring(Root.rchild)
 
 
 def getans(Root):
@@ -250,7 +274,11 @@ def getans(Root):
         else:
             block = " "
         if(Root.rchild==None):
-            ans = ans + block + 'IF c( cond c) i( ' + str(Root.lchild.val) + ' i) '
+            if('Back_same' in Root.lchild.val):
+                index = Root.lchild.val.index('Back_same')
+                ans = ans +block + 'IF c( cond c) i( ' + str(Root.lchild.val[:index]) + ' i) '+str(Root.lchild.val[index+1:])
+            else:
+                ans = ans + block + 'IF c( cond c) i( ' + str(Root.lchild.val) + ' i) '
         else:
             ans = ans + block + 'IFELSE c( cond c) i( ' + str(getans(Root.lchild))+' i) '
     if(Root.rchild!=None):

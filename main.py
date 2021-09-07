@@ -4,7 +4,7 @@ import numpy as np
 from stanfordkarel import *
 
 #声明处理的文件
-filename = "2"
+filename = "test"
 
 '''
 #Karel图形界面
