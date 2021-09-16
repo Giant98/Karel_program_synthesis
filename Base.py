@@ -54,12 +54,12 @@ def Run(innerdatas,datastring):
     datastring = str(datastring).replace('[', '').replace(']', '').replace('\'', '').replace(',', '')
     datastring = datastring.split(" ")
     datas = copy.deepcopy(innerdatas)
-    print(datas)
+    #print(datas)
     dir = ['south','west','north','east']
     markerchange = False
 
     for action in datastring:
-        print(checkCond(datas))
+        #print(checkCond(datas))
         if(action == 'move'):
             if datas['hero'] != '':
                 temp = datas['hero'].split(":")
