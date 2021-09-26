@@ -54,12 +54,12 @@ def Run(innerdatas,datastring):
     datastring = str(datastring).replace('[', '').replace(']', '').replace('\'', '').replace(',', '')
     datastring = datastring.split(" ")
     datas = copy.deepcopy(innerdatas)
-    #print(datas)
     dir = ['south','west','north','east']
     markerchange = False
+    Condlist = []
 
     for action in datastring:
-        #print(checkCond(datas))
+        Condlist.append(checkCond(datas))
         if(action == 'move'):
             if datas['hero'] != '':
                 temp = datas['hero'].split(":")
@@ -122,7 +122,7 @@ def Run(innerdatas,datastring):
                         break
     if markerchange:
         datas['markers'] = sorted(datas['markers'],key=lambda s:(-int(s.split(":")[0]),int(s.split(":")[1])))
-    return datas
+    return datas,Condlist
 
 def checkCond(datas):
     conditiondict = {'frontIsClear':True,'leftIsClear':True,'rightIsClear':True,'markersPresent':False}

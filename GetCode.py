@@ -12,10 +12,6 @@ class TreeNode:  # 二叉树节点(用来模拟if_else)
         self.rchild = rchild  # 右孩子
 
 
-def takelength(elem):
-    return len(elem)
-
-
 def search_path(filename):
     trace = []
     input = []
@@ -52,7 +48,8 @@ def search_path(filename):
             print('Input:')
             Draw(input[-1])
             print('Output')
-            Draw(Run(input[-1],trace[-1]))
+            datas,Condlist = Run(input[-1],trace[-1])
+            Draw(datas)
             '''
         line = f.readline()
     f.close()
@@ -65,7 +62,8 @@ def train_path(input, output, trace, code):  # 利用传过来的6条trace搜索
     flag = False
     test_trace = trace[-1]
     traces = copy.deepcopy(trace[:-1])
-    traces.sort(key=takelength)
+    traces, input = zip(*sorted(zip(traces, input), key=lambda x: (len(x[0]))))
+
     if len(set(traces)) == 1:  # 全部相同情况
         ans = traces[0]
         tempans = "DEF run m( " + str(ans).replace('[', '').replace(']', '').replace('\'', '').replace(',', '') + " m)"
@@ -80,9 +78,12 @@ def train_path(input, output, trace, code):  # 利用传过来的6条trace搜索
                 str(trace).replace(' ', '').replace('[', '').replace(']', '').replace('\'', '').split(','))
         test_trace = str(test_trace).replace(' ', '').replace('[', '').replace(']', '').replace('\'', '').split(',')
         Root = TreeNode(temptraces[0])  # 构建二叉树表示if.else
-        for trace in temptraces[1:]:
-            if not dfs(Root, trace):
-                Root = change(Root, trace)
+        for i in range(len(temptraces)-1):
+            datas, Condlist = Run(input[i+1], temptraces[i+1])
+            print(Condlist)
+            if not dfs(Root, temptraces[i+1]):
+                Root = change(Root, temptraces[i+1])
+        print()
         ans = getans(Root)
         tempans = "DEF run m( " + str(ans).replace('[', '').replace(']', '').replace('\'', '').replace(',', '') + " m)"
         if dfs(Root, test_trace):
