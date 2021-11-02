@@ -30,6 +30,8 @@ def search_path(filename):
             if ans == code:
                 matchnum = matchnum + 1
             else:
+                for t in trace:
+                    print(t)
                 print(code)
                 print(ans, end="\n\n")
             if flag:
@@ -80,7 +82,7 @@ def train_path(input, output, trace, code):  # 利用传过来的6条trace搜索
         Root = TreeNode(temptraces[0])  # 构建二叉树表示if.else
         for i in range(len(temptraces)-1):
             datas, Condlist = Run(input[i+1], temptraces[i+1])
-            print(Condlist)
+            #print(Condlist)
             if not dfs(Root, temptraces[i+1]):
                 Root = change(Root, temptraces[i+1])
         print()
